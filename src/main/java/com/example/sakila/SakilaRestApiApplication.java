@@ -9,6 +9,6 @@ public class SakilaRestApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SakilaRestApiApplication.class, args);
 	}
-	// testing
+
 
 }
