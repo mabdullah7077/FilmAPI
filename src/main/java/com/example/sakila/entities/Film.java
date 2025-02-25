@@ -1,7 +1,9 @@
 package com.example.sakila.entities;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Year;
 import java.util.List;
@@ -9,10 +11,13 @@ import java.util.List;
 @Entity
 @Table(name = "film")
 @Getter
+@Setter
 public class Film {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "film_id")
+    @Setter(AccessLevel.NONE)
     private Short id;
 
     @Column(name = "title")
@@ -33,6 +38,9 @@ public class Film {
     @Column(name = "rating")
     private String rating;
 
+    @ManyToOne
+    @JoinColumn(name = "language_id")
+    private Language language;
 
     @ManyToMany
     @JoinTable(
@@ -42,6 +50,12 @@ public class Film {
     )
     private List<Actor> actors;
 
-
+    @ManyToMany
+    @JoinTable(
+            name = "film_category",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
 
 }

@@ -23,6 +23,7 @@ public class FilmResponse {
     private final Short length;
     private final String rating;
     private final List<PartialActorResponse> actors;
+    private final LanguageResponse language;
 
     public static com.example.sakila.dto.response.FilmResponse from(Film film) {
         return new com.example.sakila.dto.response.FilmResponse(
@@ -36,7 +37,8 @@ public class FilmResponse {
                 film.getActors()
                         .stream()
                         .map(PartialActorResponse::from)
-                        .toList()
+                        .toList(),
+                LanguageResponse.from(film.getLanguage())
         );
     }
 

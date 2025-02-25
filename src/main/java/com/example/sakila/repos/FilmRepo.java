@@ -10,6 +10,6 @@ public interface FilmRepo extends JpaRepository<Film, Short> {
 
     List<Film> findByTitleContainingIgnoreCase(String title);
 
-
+    List<Film> findByLanguageNameIgnoreCase(String name);
 
 }
