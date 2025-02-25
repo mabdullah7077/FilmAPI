@@ -3,6 +3,7 @@ package com.example.sakila.controllers;
 import com.example.sakila.dto.request.ActorRequest;
 import com.example.sakila.dto.response.ActorResponse;
 import com.example.sakila.entities.Actor;
+import com.example.sakila.entities.Film;
 import com.example.sakila.repos.ActorRepo;
 import com.example.sakila.repos.FilmRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,12 +68,32 @@ public class ActorController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Actor not found"));
 
 
-        actor.setFirstName(data.getFirstName());
-        actor.setLastName(data.getLastName());
+        if (data.getFirstName() != null) {
+            actor.setFirstName(data.getFirstName());
+        }
+
+        if (data.getLastName() != null) {
+            actor.setLastName(data.getLastName());
+        }
+
+
+        if (data.getFilmIds() != null) {
+            List<Film> films = filmRepo.findAllById(data.getFilmIds());
+            actor.setFilms(films);
+        }
 
         Actor updatedActor = actorRepo.save(actor);
-
         return ActorResponse.from(updatedActor);
+    }
+
+
+    @DeleteMapping("/actors/{id}")
+    public void deleteActor(@PathVariable Short id) {
+
+        Actor actor = actorRepo.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Actor not found"));
+
+        actorRepo.delete(actor);
     }
 
 }
