@@ -1,5 +1,6 @@
 package com.example.sakila.controllers;
 
+import com.example.sakila.dto.request.FilmPatchRequest;
 import com.example.sakila.dto.request.FilmRequest;
 import com.example.sakila.dto.request.LanguageRequest;
 import com.example.sakila.dto.response.FilmResponse;
@@ -46,9 +47,9 @@ public class FilmController {
         return filmService.createFilm(data);
     }
 
-    @PutMapping("/films/{id}")
-    public FilmResponse updateFilm(@PathVariable Short id, @RequestBody FilmRequest data) {
-        return filmService.updateFilm(id, data);
+    @PatchMapping("/films/{id}")
+    public FilmResponse patchFilm(@PathVariable Short id, @RequestBody FilmPatchRequest data) {
+        return filmService.patchFilm(id, data);
     }
 
     @PutMapping("/films/{id}/language")

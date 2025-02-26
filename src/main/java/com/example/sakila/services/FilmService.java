@@ -1,5 +1,6 @@
 package com.example.sakila.services;
 
+import com.example.sakila.dto.request.FilmPatchRequest;
 import com.example.sakila.dto.request.FilmRequest;
 import com.example.sakila.dto.request.LanguageRequest;
 import com.example.sakila.dto.response.FilmResponse;
@@ -104,26 +105,46 @@ public class FilmService {
     }
 
 
-    public FilmResponse updateFilm(Short id, FilmRequest data) {
+    public FilmResponse patchFilm(Short id, FilmPatchRequest data) {
         Film film = filmRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Film not found"));
 
-        film.setTitle(data.getTitle());
-        film.setDescription(data.getDescription());
-        film.setReleaseYear(data.getReleaseYear());
-        film.setLength(data.getLength());
-        film.setRating(data.getRating());
+        // Apply only the fields that are provided in the PATCH request
+        if (data.getTitle() != null) {
+            film.setTitle(data.getTitle());
+        }
 
-        Language language = languageRepo.findById(data.getLanguageId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Language not found"));
-        film.setLanguage(language);
+        if (data.getDescription() != null) {
+            film.setDescription(data.getDescription());
+        }
 
-        List<Actor> actors = data.getActorIds().stream()
-                .map(actorId -> actorRepo.findById(actorId)
-                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Actor not found"))
-                )
-                .collect(Collectors.toList());
-        film.setActors(actors);
+        if (data.getReleaseYear() != null) {
+            film.setReleaseYear(data.getReleaseYear());
+        }
+
+        if (data.getLength() != null) {
+            film.setLength(data.getLength());
+        }
+
+        if (data.getActorIds() != null) {
+            List<Actor> actors = actorRepo.findAllById(data.getActorIds());
+            film.setActors(actors);
+        }
+
+        if (data.getLanguageId() != null) {
+            Language language = languageRepo.findById(data.getLanguageId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Language not found"));
+            film.setLanguage(language);
+        }
+
+        if (data.getRating() != null) {
+            film.setRating(data.getRating());
+        }
+
+        if (data.getCategoryIds() != null) {
+            List<Category> categories = categoryRepo.findAllById(data.getCategoryIds());
+            film.setCategories(categories);
+        }
 
         Film updatedFilm = filmRepo.save(film);
         return FilmResponse.from(updatedFilm);

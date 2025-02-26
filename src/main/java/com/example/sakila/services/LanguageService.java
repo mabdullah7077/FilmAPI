@@ -36,15 +36,14 @@ public class LanguageService {
                 .collect(Collectors.toList());
     }
 
-    // Create a new Language
+
     public LanguageResponse createLanguage(LanguageRequest data) {
         Language language = new Language();
         language.setName(data.getName());  // Assuming the request contains the name of the language
 
-        // Save the language entity
+
         Language savedLanguage = languageRepo.save(language);  // This returns a Language object
 
-        // Return the saved Language as a LanguageResponse
         return LanguageResponse.from(savedLanguage);  // This is where the conversion to LanguageResponse happens
     }
 
