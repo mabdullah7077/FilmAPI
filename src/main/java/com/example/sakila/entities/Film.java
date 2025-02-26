@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,9 +29,6 @@ public class Film {
 
     @Column(name = "release_year")
     private Year releaseYear;
-
-    @Column(name = "rental_rate")
-    private double rentalRate;
 
     @Column(name = "length")
     private Short length;

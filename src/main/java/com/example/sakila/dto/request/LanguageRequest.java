@@ -11,5 +11,6 @@ import java.util.List;
 @Getter
 @Setter
 public class LanguageRequest {
-    private final Short languageId;
+    private Short languageId;
+    private final String name;
 }
