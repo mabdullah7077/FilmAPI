@@ -1,5 +1,6 @@
 package com.example.sakila.services;
 
+import com.example.sakila.dto.request.ActorPatchRequest;
 import com.example.sakila.dto.request.ActorRequest;
 import com.example.sakila.dto.response.ActorResponse;
 import com.example.sakila.entities.Actor;
@@ -45,26 +46,30 @@ public class ActorService {
         return ActorResponse.from(actor);
     }
 
-    public ActorResponse createActor(ActorRequest data) {
+    public ActorResponse createActor(ActorRequest actorRequest) {
         Actor actor = new Actor();
-        actor.setFirstName(data.getFirstName());
-        actor.setLastName(data.getLastName());
+        actor.setFirstName(actorRequest.getFirstName());
+        actor.setLastName(actorRequest.getLastName());
 
-        List<Film> films = data.getFilmIds()
-                .stream()
-                .map(filmId -> filmRepo.findById(filmId)
-                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "No film exists with ID")))
-                .toList();
+        if (actorRequest.getFilmIds() != null && !actorRequest.getFilmIds().isEmpty()) {
+            List<Film> films = filmRepo.findAllById(actorRequest.getFilmIds());
+            if (films.size() != actorRequest.getFilmIds().size()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Some film IDs are invalid.");
+            }
+            actor.setFilms(films);
+        }
 
-        actor.setFilms(films);
         Actor savedActor = actorRepo.save(actor);
         return ActorResponse.from(savedActor);
     }
 
-    public ActorResponse updateActor(Short id, ActorRequest data) {
+
+    public ActorResponse updateActor(Short id, ActorPatchRequest data) {
+
         Actor actor = actorRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Actor not found"));
 
+        // Apply changes to the actor's fields if provided
         if (data.getFirstName() != null) {
             actor.setFirstName(data.getFirstName());
         }
@@ -73,12 +78,14 @@ public class ActorService {
             actor.setLastName(data.getLastName());
         }
 
+
         if (data.getFilmIds() != null) {
             List<Film> films = filmRepo.findAllById(data.getFilmIds());
-            actor.setFilms(films);
+            actor.setFilms(films); // Update the actor's associated films
         }
 
         Actor updatedActor = actorRepo.save(actor);
+
         return ActorResponse.from(updatedActor);
     }
 

@@ -26,25 +26,25 @@ public class LanguageService {
     public LanguageResponse getLanguageById(Short id) {
         Language language = languageRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Language not found"));
-        return new LanguageResponse(language.getId(), language.getName());  // return LanguageResponse
+        return new LanguageResponse(language.getId(), language.getName());
     }
 
     public List<LanguageResponse> getAllLanguages() {
-        List<Language> languages = languageRepo.findAll();  // Fetch all languages from the repository
+        List<Language> languages = languageRepo.findAll();
         return languages.stream()
-                .map(language -> new LanguageResponse(language.getId(), language.getName()))  // Map to LanguageResponse
+                .map(language -> new LanguageResponse(language.getId(), language.getName()))
                 .collect(Collectors.toList());
     }
 
 
     public LanguageResponse createLanguage(LanguageRequest data) {
         Language language = new Language();
-        language.setName(data.getName());  // Assuming the request contains the name of the language
+        language.setName(data.getName());
 
 
-        Language savedLanguage = languageRepo.save(language);  // This returns a Language object
+        Language savedLanguage = languageRepo.save(language);
 
-        return LanguageResponse.from(savedLanguage);  // This is where the conversion to LanguageResponse happens
+        return LanguageResponse.from(savedLanguage);
     }
 
     // Update an existing Language
@@ -54,9 +54,9 @@ public class LanguageService {
 
         language.setName(data.getName());
 
-        Language updatedLanguage = languageRepo.save(language);  // Saving the updated language
+        Language updatedLanguage = languageRepo.save(language);
 
-        return LanguageResponse.from(updatedLanguage);  // Returning the updated language as a response
+        return LanguageResponse.from(updatedLanguage);
     }
 
     // Delete a Language by ID
@@ -64,6 +64,6 @@ public class LanguageService {
         Language language = languageRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Language not found"));
 
-        languageRepo.delete(language);  // Deleting the language
+        languageRepo.delete(language);
     }
 }

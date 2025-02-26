@@ -1,5 +1,6 @@
 package com.example.sakila.controllers;
 
+import com.example.sakila.dto.request.ActorPatchRequest;
 import com.example.sakila.dto.request.ActorRequest;
 import com.example.sakila.dto.response.ActorResponse;
 import com.example.sakila.services.ActorService;
@@ -29,12 +30,12 @@ public class ActorController {
     }
 
     @PostMapping("/actors")
-    public ActorResponse createActor(@RequestBody ActorRequest data) {
-        return actorService.createActor(data);
+    public ActorResponse createActor(@RequestBody ActorRequest actorRequest) {
+        return actorService.createActor(actorRequest);
     }
 
-    @PutMapping("/actors/{id}")
-    public ActorResponse updateActor(@PathVariable Short id, @RequestBody ActorRequest data) {
+    @PatchMapping("/actors/{id}")
+    public ActorResponse updateActor(@PathVariable Short id, @RequestBody ActorPatchRequest data) {
         return actorService.updateActor(id, data);
     }
 
