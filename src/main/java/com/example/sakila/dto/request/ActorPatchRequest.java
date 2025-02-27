@@ -10,10 +10,10 @@ import java.util.List;
 @Setter
 public class ActorPatchRequest {
 
-    @Size(max = 128, message = "First name cannot be longer than 128 characters")
+    @Size(max = 45)
     private String firstName;
 
-    @Size(max = 128, message = "Last name cannot be longer than 128 characters")
+    @Size(max = 45)
     private String lastName;
 
     private List<Short> filmIds;

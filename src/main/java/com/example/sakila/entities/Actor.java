@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Formula;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -36,6 +37,6 @@ public class Actor {
             joinColumns = {@JoinColumn(name = "actor_id")},
             inverseJoinColumns = {@JoinColumn(name = "film_id")}
     )
-    private List<Film> films;
+    private List<Film> films = new ArrayList<>();
 
 }

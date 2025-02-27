@@ -5,6 +5,7 @@ import com.example.sakila.dto.request.FilmRequest;
 import com.example.sakila.dto.request.LanguageRequest;
 import com.example.sakila.dto.response.FilmResponse;
 import com.example.sakila.services.FilmService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -43,18 +44,13 @@ public class FilmController {
     }
 
     @PostMapping("/films")
-    public FilmResponse createFilm(@RequestBody FilmRequest data) {
+    public FilmResponse createFilm(@Valid @RequestBody FilmRequest data) {
         return filmService.createFilm(data);
     }
 
     @PatchMapping("/films/{id}")
-    public FilmResponse patchFilm(@PathVariable Short id, @RequestBody FilmPatchRequest data) {
+    public FilmResponse patchFilm(@PathVariable Short id, @Valid @RequestBody FilmPatchRequest data) {
         return filmService.patchFilm(id, data);
-    }
-
-    @PutMapping("/films/{id}/language")
-    public FilmResponse updateFilmLanguage(@PathVariable Short id, @RequestBody LanguageRequest languageRequest) {
-        return filmService.updateFilmLanguage(id, languageRequest);
     }
 
     @DeleteMapping("/films/{id}")

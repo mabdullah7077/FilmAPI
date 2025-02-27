@@ -69,7 +69,6 @@ public class ActorService {
         Actor actor = actorRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Actor not found"));
 
-        // Apply changes to the actor's fields if provided
         if (data.getFirstName() != null) {
             actor.setFirstName(data.getFirstName());
         }

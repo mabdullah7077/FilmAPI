@@ -12,21 +12,22 @@ import java.util.List;
 @Setter
 public class FilmPatchRequest {
 
-    @Size(max = 128, message = "Title cannot be longer than 128 characters")
+    @Size(max = 128)
     private String title;
 
-    @Size(max = 500, message = "Description cannot be longer than 500 characters")
+    @Size(max = 500)
     private String description;
 
     private Year releaseYear;
 
-    @Min(value = 1, message = "Length must be at least 1 minute")
+    @Min(value = 1)
     private Short length;
 
     private List<Short> actorIds;
 
     private Short languageId;
 
+    @Size(max = 5)
     private String rating;
 
     private List<Short> categoryIds;

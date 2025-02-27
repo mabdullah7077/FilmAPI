@@ -22,7 +22,6 @@ public class LanguageService {
         this.languageRepo = languageRepo;
     }
 
-    // Fetch Language by ID
     public LanguageResponse getLanguageById(Short id) {
         Language language = languageRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Language not found"));
@@ -47,7 +46,6 @@ public class LanguageService {
         return LanguageResponse.from(savedLanguage);
     }
 
-    // Update an existing Language
     public LanguageResponse updateLanguage(Short id, LanguageRequest data) {
         Language language = languageRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Language not found"));
@@ -59,7 +57,6 @@ public class LanguageService {
         return LanguageResponse.from(updatedLanguage);
     }
 
-    // Delete a Language by ID
     public void deleteLanguage(Short id) {
         Language language = languageRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Language not found"));

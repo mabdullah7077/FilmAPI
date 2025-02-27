@@ -4,6 +4,7 @@ import com.example.sakila.dto.request.ActorPatchRequest;
 import com.example.sakila.dto.request.ActorRequest;
 import com.example.sakila.dto.response.ActorResponse;
 import com.example.sakila.services.ActorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,12 +31,12 @@ public class ActorController {
     }
 
     @PostMapping("/actors")
-    public ActorResponse createActor(@RequestBody ActorRequest actorRequest) {
+    public ActorResponse createActor(@Valid @RequestBody ActorRequest actorRequest) {
         return actorService.createActor(actorRequest);
     }
 
     @PatchMapping("/actors/{id}")
-    public ActorResponse updateActor(@PathVariable Short id, @RequestBody ActorPatchRequest data) {
+    public ActorResponse updateActor(@PathVariable Short id, @Valid @RequestBody ActorPatchRequest data) {
         return actorService.updateActor(id, data);
     }
 

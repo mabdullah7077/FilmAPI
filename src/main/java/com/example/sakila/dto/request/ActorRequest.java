@@ -22,6 +22,6 @@ public class ActorRequest {
     @Size(min = 1, max = 45)
     private final String lastName;
 
-    @NotNull
+
     private final List<Short> filmIds;
 }
