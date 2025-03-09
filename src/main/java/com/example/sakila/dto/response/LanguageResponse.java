@@ -12,8 +12,8 @@ public class LanguageResponse {
 
     public static LanguageResponse from(Language language) {
         return new LanguageResponse(
-                language.getId(),  // Get the id from the Language entity
-                language.getName()  // Get the name from the Language entity
+                language.getId(),
+                language.getName()
         );
     }
 }

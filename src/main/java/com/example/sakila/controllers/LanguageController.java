@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins="*")
 @RestController
 @RequestMapping("/languages")  // The base URL for this controller
 public class LanguageController {

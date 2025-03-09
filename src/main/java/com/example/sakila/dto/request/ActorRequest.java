@@ -5,23 +5,25 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class ActorRequest {
 
     @NotNull
     @Size(min = 1, max = 45)
-    private final String firstName;
+    private String firstName;
 
     @NotNull
     @Size(min = 1, max = 45)
-    private final String lastName;
+    private String lastName;
 
 
-    private final List<Short> filmIds;
+    private List<Short> filmIds;
 }

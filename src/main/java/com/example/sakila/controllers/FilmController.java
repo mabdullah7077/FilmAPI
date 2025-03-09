@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@CrossOrigin(origins="*")
 @RestController
 public class FilmController {
 
@@ -44,7 +45,7 @@ public class FilmController {
     }
 
     @PostMapping("/films")
-    public FilmResponse createFilm(@Valid @RequestBody FilmRequest data) {
+    public FilmResponse createFilm(@RequestBody FilmRequest data) {
         return filmService.createFilm(data);
     }
 

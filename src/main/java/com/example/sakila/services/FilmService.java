@@ -58,7 +58,7 @@ public class FilmService {
         }
 
         if (films.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No films found matching the criteria.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
         return films.stream()
@@ -70,7 +70,7 @@ public class FilmService {
     public FilmResponse getFilmById(Short id) {
         return filmRepo.findById(id)
                 .map(FilmResponse::from)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Film not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     public List<FilmResponse> listFilmsByLanguage(String language) {
@@ -83,7 +83,7 @@ public class FilmService {
 
     public FilmResponse createFilm(FilmRequest data) {
         Language language = languageRepo.findById(data.getLanguageId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Language not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
 
         List<Actor> actors = actorRepo.findAllById(data.getActorIds());
 
@@ -107,9 +107,9 @@ public class FilmService {
 
     public FilmResponse patchFilm(Short id, FilmPatchRequest data) {
         Film film = filmRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Film not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        // Apply only the fields that are provided in the PATCH request
+
         if (data.getTitle() != null) {
             film.setTitle(data.getTitle());
         }
@@ -133,7 +133,7 @@ public class FilmService {
 
         if (data.getLanguageId() != null) {
             Language language = languageRepo.findById(data.getLanguageId())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Language not found"));
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
             film.setLanguage(language);
         }
 
@@ -150,24 +150,9 @@ public class FilmService {
         return FilmResponse.from(updatedFilm);
     }
 
-
-    public FilmResponse updateFilmLanguage(Short id, LanguageRequest languageRequest) {
-        Film film = filmRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Film not found"));
-
-        Language language = languageRepo.findById(languageRequest.getLanguageId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Language not found"));
-
-        film.setLanguage(language);
-
-        Film updatedFilm = filmRepo.save(film);
-        return FilmResponse.from(updatedFilm);
-    }
-
-
     public void deleteFilm(Short id) {
         Film film = filmRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Film not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         filmRepo.delete(film);
     }

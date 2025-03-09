@@ -1,9 +1,7 @@
 package com.example.sakila.entities;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Year;
 import java.util.ArrayList;
@@ -13,12 +11,13 @@ import java.util.List;
 @Table(name = "film")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Film {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "film_id")
-    @Setter(AccessLevel.NONE)
     private Short id;
 
     @Column(name = "title")
